@@ -25,6 +25,10 @@ const REPO = 'agentcrate/api';
 const OUT_DIR = join(process.cwd(), 'content/docs/api');
 
 const tag = process.env.API_TAG ?? 'openapi-latest';
+if (!/^[\w.\-/]+$/.test(tag)) {
+  console.error(`Invalid API_TAG: ${tag}`);
+  process.exit(1);
+}
 
 const work = mkdtempSync(join(tmpdir(), 'api-docs-'));
 console.log(`Downloading openapi.tar.gz for ${tag} into ${work}`);
