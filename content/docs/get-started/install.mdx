@@ -1,0 +1,33 @@
+---
+title: Installation
+description: Install the crate CLI on macOS, Linux, or Windows.
+---
+
+## macOS / Linux (one-liner)
+
+```bash
+curl -sSfL https://get.agentcrate.ai | sh
+```
+
+The script downloads the latest release into `./bin`. Pass `-b /usr/local/bin`
+to install system-wide, or `-v v0.1.0` to pin a version.
+
+## Homebrew
+
+```bash
+brew install agentcrate/tap/crate
+```
+
+## Windows
+
+Download the matching `crate_<version>_windows_<arch>.zip` from
+[GitHub Releases](https://github.com/agentcrate/crate/releases) and extract
+`crate.exe` onto your `PATH`.
+
+## From source
+
+```bash
+go install github.com/agentcrate/crate/cmd/crate@latest
+```
+
+Requires Go 1.25+.

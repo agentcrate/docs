@@ -1,0 +1,66 @@
+---
+title: Your first agent
+description: A 60-second tour from `crate init` to a published agent.
+---
+
+This walkthrough produces a published agent. You'll need a CrateHub account —
+[sign up at cratehub.ai](https://cratehub.ai) if you don't have one.
+
+## 1. Scaffold
+
+```bash
+crate init code-reviewer
+cd code-reviewer
+```
+
+Open `Agentfile`. It looks like this:
+
+```yaml
+version: "1"
+
+metadata:
+  name: code-reviewer
+  version: "0.1.0"
+  description: A thorough but constructive code reviewer.
+
+brain:
+  default: gpt
+  models:
+    - name: gpt
+      model: openai/gpt-4o
+      temperature: 0.3
+
+persona:
+  system_prompt: |
+    You are a senior code reviewer. Be thorough but constructive.
+
+skills:
+  - name: github
+    type: mcp
+    source: https://mcp.github.com/v1
+```
+
+## 2. Lint
+
+```bash
+crate lint
+```
+
+Catches schema errors before you build.
+
+## 3. Build
+
+```bash
+crate build .
+```
+
+Produces a signed OCI artifact in `./out/`.
+
+## 4. Push
+
+```bash
+crate login
+crate push your-namespace/code-reviewer:0.1.0
+```
+
+That's it. Browse it on [cratehub.ai](https://cratehub.ai).

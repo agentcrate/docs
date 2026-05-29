@@ -1,0 +1,31 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Next.js
+.next
+out
+
+# Fumadocs MDX
+.source
+
+# Vercel
+.vercel
+
+# Env
+.env*.local
+
+# Logs
+*.log
+.DS_Store
+
+# Editor
+.idea
+.vscode
+*.swp
+
+# Misc
+coverage
+*.tsbuildinfo
+next-env.d.ts

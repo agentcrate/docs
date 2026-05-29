@@ -1,0 +1,46 @@
+---
+title: Quickstart
+description: Install crate, build your first agent, push it to CrateHub.
+---
+
+## Install the CLI
+
+```bash
+curl -sSfL https://get.agentcrate.ai | sh
+```
+
+Or via Homebrew:
+
+```bash
+brew install agentcrate/tap/crate
+```
+
+Verify:
+
+```bash
+crate --version
+```
+
+## Initialize an agent
+
+```bash
+crate init my-agent
+cd my-agent
+```
+
+This scaffolds an `Agentfile` you can edit.
+
+## Build
+
+```bash
+crate build .
+```
+
+## Push to CrateHub
+
+```bash
+crate login
+crate push my-namespace/my-agent:0.1.0
+```
+
+Your agent is now live at `cratehub.ai/my-namespace/my-agent`.

@@ -1,0 +1,40 @@
+---
+title: The Agentfile
+description: Schema reference for the file that defines an agent.
+---
+
+An `Agentfile` is the source of truth for an agent. It defines metadata,
+which models to use, the persona, the skills, and the runtime configuration.
+
+```yaml
+version: "1"
+
+metadata:
+  name: code-reviewer
+  version: "1.0.0"
+  description: A thorough but constructive code reviewer.
+  authors: ["alice@example.com"]
+  license: Apache-2.0
+
+brain:
+  default: gpt
+  models:
+    - name: gpt
+      model: openai/gpt-4o
+      temperature: 0.3
+
+persona:
+  system_prompt: |
+    You are a senior code reviewer. Be thorough but constructive.
+
+skills:
+  - name: github
+    type: mcp
+    source: https://mcp.github.com/v1
+```
+
+## Field reference
+
+> Full schema reference is generated from the agentfile JSON Schema. This page
+> will be replaced with the auto-generated reference once the agentfile repo's
+> docs sync workflow lands.

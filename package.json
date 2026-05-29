@@ -1,0 +1,38 @@
+{
+  "name": "@agentcrate/docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "fumadocs-mdx",
+    "sync:cli": "tsx scripts/sync-cli-docs.ts",
+    "sync:api": "tsx scripts/sync-api-docs.ts"
+  },
+  "dependencies": {
+    "fumadocs-core": "16.9.2",
+    "fumadocs-mdx": "15.0.9",
+    "fumadocs-openapi": "^10.9.1",
+    "fumadocs-ui": "16.9.2",
+    "next": "^16.2.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "^24.5.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.2.6",
+    "tailwindcss": "^4.1.13",
+    "tsx": "^4.20.0",
+    "typescript": "^5.7.0"
+  },
+  "packageManager": "pnpm@11.3.0"
+}
