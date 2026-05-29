@@ -1,0 +1,53 @@
+name: PR Title
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  validate:
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            test
+            chore
+            refactor
+            perf
+            ci
+            build
+            style
+            revert
+          scopes: |
+            content
+            cli
+            api
+            quickstart
+            guides
+            theme
+            search
+            sync
+            deps
+            ci
+            build
+            release
+          requireScope: false
+          subjectPattern: ^.+$
+          subjectPatternError: |
+            PR title must follow Conventional Commits format:
+            type(scope): description
+
+            Examples:
+              docs(cli): sync from crate v0.1.0
+              fix(theme): broken light mode toggle
+              chore(deps): bump fumadocs-ui to 16.10
