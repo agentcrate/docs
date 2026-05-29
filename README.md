@@ -4,8 +4,8 @@ The documentation site for **AgentCrate** (the platform) and **CrateHub**
 (the registry). Built on [Fumadocs](https://fumadocs.dev) + Next.js,
 deployed on Vercel.
 
-- **Staging**: https://docs.cratehub.dev
-- **Production**: https://docs.agentcrate.ai
+- **Staging**: <https://docs.cratehub.dev>
+- **Production**: <https://docs.agentcrate.ai>
 
 ## Local dev
 
@@ -14,11 +14,11 @@ pnpm install
 pnpm dev
 ```
 
-Open http://localhost:3000.
+Open <http://localhost:3000>.
 
 ## Structure
 
-```
+```text
 app/                 Next.js App Router
 content/docs/        MDX pages
   get-started/         Hand-written quickstart
