@@ -24,9 +24,9 @@ on:
           - crate-released
           - api-released
       tag:
-        description: Release tag (e.g. v0.1.0). Leave empty for latest.
+        description: Release tag (e.g. v0.1.0). Required — empty tags are rejected.
         type: string
-        required: false
+        required: true
 
 permissions:
   contents: write
@@ -60,6 +60,14 @@ jobs:
         run: |
           event="${DISPATCH_EVENT:-$MANUAL_EVENT}"
           tag="${DISPATCH_TAG:-$MANUAL_TAG}"
+          if [ -z "$event" ]; then
+            echo "::error::No event resolved — neither repository_dispatch action nor workflow_dispatch input was provided."
+            exit 1
+          fi
+          if [ -z "$tag" ]; then
+            echo "::error::No tag resolved for event=$event — refusing to open a PR with an empty version. Pass client_payload.tag (repository_dispatch) or the tag input (workflow_dispatch)."
+            exit 1
+          fi
           echo "event=$event" >> "$GITHUB_OUTPUT"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
           echo "Resolved event=$event tag=$tag"
