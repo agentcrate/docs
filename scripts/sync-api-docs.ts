@@ -15,7 +15,7 @@
  */
 
 import { execSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, readdirSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, globSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { generateFiles } from 'fumadocs-openapi';
@@ -44,9 +44,9 @@ execSync(`tar -xzf '${work}/openapi.tar.gz' -C '${extracted}'`, {
   stdio: 'inherit',
 });
 
-const schemaPaths = readdirSync(extracted)
-  .filter((name) => name.endsWith('.json'))
-  .map((name) => join(extracted, name));
+const schemaPaths = globSync('**/*.json', { cwd: extracted }).map((name) =>
+  join(extracted, name),
+);
 
 if (schemaPaths.length === 0) {
   console.error(`No .json schemas found under ${extracted}`);
