@@ -7,21 +7,28 @@
  *
  *   1. Resolves the rolling tag (`openapi-latest`) — overridable via $API_TAG
  *   2. Downloads `openapi.tar.gz` and extracts it
- *   3. Runs `fumadocs-openapi generate` against the extracted directory
+ *   3. Invokes fumadocs-openapi's `generateFiles` against the extracted
+ *      schemas (no CLI exists in v10 — only a programmatic API)
  *
  * Run from the docs `sync.yml` workflow when an `api-released` dispatch
  * fires.
  */
 
 import { execSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, globSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { generateFiles } from 'fumadocs-openapi';
+import { createOpenAPI } from 'fumadocs-openapi/server';
 
 const REPO = 'agentcrate/api';
 const OUT_DIR = join(process.cwd(), 'content/docs/api');
 
 const tag = process.env.API_TAG ?? 'openapi-latest';
+if (!/^[\w.\-/]+$/.test(tag)) {
+  console.error(`Invalid API_TAG: ${tag}`);
+  process.exit(1);
+}
 
 const work = mkdtempSync(join(tmpdir(), 'api-docs-'));
 console.log(`Downloading openapi.tar.gz for ${tag} into ${work}`);
@@ -37,11 +44,24 @@ execSync(`tar -xzf '${work}/openapi.tar.gz' -C '${extracted}'`, {
   stdio: 'inherit',
 });
 
+const schemaPaths = globSync('**/*.json', { cwd: extracted }).map((name) =>
+  join(extracted, name),
+);
+
+if (schemaPaths.length === 0) {
+  console.error(`No .json schemas found under ${extracted}`);
+  process.exit(1);
+}
+
+console.log(`Generating MDX for ${schemaPaths.length} schemas → ${OUT_DIR}`);
+
+const server = createOpenAPI({ input: schemaPaths });
+
 mkdirSync(OUT_DIR, { recursive: true });
 
-execSync(
-  `pnpm dlx fumadocs-openapi generate --input '${extracted}' --output '${OUT_DIR}'`,
-  { stdio: 'inherit' },
-);
+await generateFiles({
+  input: server,
+  output: OUT_DIR,
+});
 
 console.log(`API docs synced from ${tag} → ${OUT_DIR}`);
